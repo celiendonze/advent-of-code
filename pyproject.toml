@@ -3,9 +3,7 @@ name = "advent-of-code-2024"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-authors = [
-    { name = "Célien Donzé", email = "celien.donze@hefr.ch" }
-]
+authors = [{ name = "Célien Donzé", email = "celien.donze@hefr.ch" }]
 requires-python = ">=3.12"
 dependencies = [
     "ipykernel>=6.29.5",
@@ -15,7 +13,3 @@ dependencies = [
     "scipy>=1.14.1",
     "tqdm>=4.67.1",
 ]
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
