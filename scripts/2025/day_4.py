@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import numpy as np
-from tqdm import tqdm
 
 input_path = Path(__file__).parent.parent.parent / "data/2025/day_4.txt"
 
@@ -37,9 +36,9 @@ def can_be_accessed(map: np.ndarray, x: int, y: int) -> bool:
 
 
 total = 0
-for x, y in tqdm(
-    [(x, y) for x in range(map_array.shape[1]) for y in range(map_array.shape[0])]
-):
+for x, y in [
+    (x, y) for x in range(map_array.shape[1]) for y in range(map_array.shape[0])
+]:
     if can_be_accessed(map_array, x, y):
         total += 1
 
@@ -50,9 +49,9 @@ total = 0
 while True:
     inner_total = 0
     new_map_array = map_array.copy()
-    for x, y in tqdm(
-        [(x, y) for x in range(map_array.shape[1]) for y in range(map_array.shape[0])]
-    ):
+    for x, y in [
+        (x, y) for x in range(map_array.shape[1]) for y in range(map_array.shape[0])
+    ]:
         if can_be_accessed(map_array, x, y):
             new_map_array[y, x] = "."
             inner_total += 1
