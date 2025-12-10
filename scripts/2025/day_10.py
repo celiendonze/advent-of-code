@@ -3,6 +3,7 @@ from itertools import combinations_with_replacement
 from pathlib import Path
 
 import numpy as np
+from scipy.optimize import Bounds, LinearConstraint, OptimizeResult, milp
 from tqdm import tqdm
 
 input_path = Path(__file__).parent.parent.parent / "data/2025/day_10.txt"
@@ -65,10 +66,21 @@ for line in tqdm(lines):
     # # array([1, 0, 1, 1, 1]), array([1, 1, 0, 1, 1]), array([1, 0, 0, 1, 1])]
     # print(joltage)  # [220, 13, 8, 220, 220]
 
-    coeffs, residuals, rank, s = np.linalg.lstsq(
-        np.array(switches).T, np.array(joltage), rcond=None
+    c = np.ones(len(switches), dtype=int)
+    A_eq = np.array(switches).T
+    b_eq = np.array(joltage)
+    bounds = Bounds(lb=0, ub=np.inf)
+    linear_constraint = LinearConstraint(A_eq, lb=b_eq, ub=b_eq)
+    res: OptimizeResult = milp(
+        c=c,
+        constraints=[linear_constraint],
+        bounds=bounds,
+        integrality=np.ones(len(switches), dtype=int),
     )
-    total_2 += sum(coeffs)
+    if res.success:
+        total_2 += int(res.fun)
+    else:
+        print("No solution found for line:", line)
 
 print("Part 1:", total_1)
 print("Part 2:", total_2)
